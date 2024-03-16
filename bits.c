@@ -1,19 +1,19 @@
 
-/* 
- * CS:APP Bitbasher Project 
- * 
+/*
+ * CS:APP Bitbasher Project
+ *
  * <Please put your name and userid here>
- * 
+ *
  * bits.c - Source file with your solutions to the project.
- *          
+ *
  *
  * WARNING: Do not include the <stdio.h> header; it confuses the dlc
  * compiler. You can still use printf for debugging without including
  * <stdio.h>, although you might get a compiler warning. In general,
  * it's not good practice to ignore compiler warnings, but in this
- * case it's OK.  
+ * case it's OK.
  */
-
+#include <stdio.h>
 #if 0
 /*
  * Instructions to Students:
@@ -133,7 +133,6 @@ NOTES:
  *      the correct answers.
  */
 
-
 #endif
 /* Copyright (C) 1991-2020 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -170,58 +169,84 @@ NOTES:
    - 56 emoji characters
    - 285 hentaigana
    - 3 additional Zanabazar Square characters */
-/* 
- * f2301 - return 1 if x == y, and 0 otherwise 
+int f2301(int x, int y);
+int f2302(int x);
+
+int main()
+{
+    printf("%u",f2302(5));
+    printf("\n");
+}
+
+void printBits(int num)
+{
+    unsigned int size = sizeof(int) * 8;   // Calculate the number of bits in an integer
+    unsigned int maxPow = 1 << (size - 1); // Find the maximum power of 2
+    for (int i = 0; i < size; i++)
+    {
+        // Print 1 if the current bit is set, 0 otherwise
+        printf("%u", num & maxPow ? 1 : 0);
+        num = num << 1; // Shift the number to the left by 1
+    }
+    printf("\n");
+}
+/*
+ * f2301 - return 1 if x == y, and 0 otherwise
  *   Examples: f2301(5,5) = 1, f2301(4,5) = 0
- *   Legal ops: ! ^ 
+ *   Legal ops: ! ^
  *   Max ops: 2
  *   Rating: 2
  */
-int f2301(int x, int y) {
-  return null;
+int f2301(int x, int y)
+{
+    
 }
-/* 
- * f2302 - Check whether x is nonzero 
+/*
+ * f2302 - Check whether x is nonzero
  *   Examples: f2302(3) = 1, f2302(0) = 0
  *   Legal ops: ~ & | + >>
  *   Max ops: 5
- *   Rating: 4 
+ *   Rating: 4
  */
-int f2302(int x) {
-  return null;
+int f2302(int x)
+{
+    
 }
-/* 
- * f2303 - /* if x <= y  then return 1, else return 0 */ 
+/*
+ * f2303 - /* if x <= y  then return 1, else return 0 */
 // *   Example: f2303(4,5) = 1.
 // *   Legal ops: ! ~ & ^ | + >>
 // *   Max ops: 13
 // *   Rating: 3
 
-int f2303(int x, int y) {
-  return null;
+int f2303(int x, int y)
+{
+    return NULL;
 }
-/* 
- * f2304 - if x > y  then return 1, else return 0 
+/*
+ * f2304 - if x > y  then return 1, else return 0
  *   Example: f2304(4,5) = 0, f2304(5,4) = 1
  *   Legal ops: ! ~ & ^ | + >>
  *   Max ops: 12
  *   Rating: 3
  */
-int f2304(int x, int y) {
-  return null;
+int f2304(int x, int y)
+{
+    return NULL;
 }
-/* 
- * f2305 - return 1 if x < 0, return 0 otherwise 
+/*
+ * f2305 - return 1 if x < 0, return 0 otherwise
  *   Example: f2305(-1) = 1.
  *   Legal ops: & >>
  *   Max ops: 2
  *   Rating: 2
  */
-int f2305(int x) {
-  return null;
+int f2305(int x)
+{
+    return NULL;
 }
 /*
- * f2306 - return 1 if 0x30 <= x <= 0x39 
+ * f2306 - return 1 if 0x30 <= x <= 0x39
  * These are the ASCII codes for characters '0' to '9'
  *   Example: f2306(0x35) = 1.
  *            f2306(0x3a) = 0.
@@ -231,36 +256,38 @@ int f2305(int x) {
  *   Rating: 3
  */
 
-int f2306(int x) {
-  return null;
-  
+int f2306(int x)
+{
+    return NULL;
 }
-/* 
- * f2307 - return 1 if x can be represented as a 
+/*
+ * f2307 - return 1 if x can be represented as a
  *   16-bit, two's complement integer.
  *   Examples: f2307(33000) = 0, f2307(-32768) = 1
  *   Legal ops: ! ^  >>
  *   Max ops: 4
  *   Rating: 1
  */
-int f2307(int x) {
-  return null;
+int f2307(int x)
+{
+    return NULL;
 }
-/* 
+/*
  * f2308 - return x -> y in propositional logic - 0 for false, 1
  * for true. (->)  is called implication in propositional logic
- * A ->  B is false when A is true and B is false, 
- * and it is true in all other cases. 
+ * A ->  B is false when A is true and B is false,
+ * and it is true in all other cases.
  *   Example: f2308(1,1) = 1
  *            f2308(1,0) = 0
  *   Legal ops: ! ~ ^ |
  *   Max ops: 2
  *   Rating: 2
  */
-int f2308(int x, int y) {
-  return null;
+int f2308(int x, int y)
+{
+    return NULL;
 }
-/* 
+/*
  * f2309 - Return bit-level equivalent of expression (int) f
  *   for floating point argument f.
  *   Argument is passed as unsigned int, but
@@ -273,8 +300,9 @@ int f2308(int x, int y) {
  *   Rating: 4
 exp = (uf >> 23) & 0xff;
  */
-int f2309(unsigned uf) {
-  return null;
+int f2309(unsigned uf)
+{
+    return NULL;
 }
 /*
  * f2310 - return floor(log base 2 of x), where x > 0
@@ -283,10 +311,11 @@ int f2309(unsigned uf) {
  *   Max ops: 27
  *   Rating: 4
  */
-int f2310(int x) {
-  return null;
+int f2310(int x)
+{
+    return NULL;
 }
-/* 
+/*
  * f2311 - Extract byte n from word x
  *   Bytes numbered from 0 (LSB) to 3 (MSB)
  *   Examples: f2311(0x12345678,1) = 0x56
@@ -294,10 +323,11 @@ int f2310(int x) {
  *   Max ops: 3
  *   Rating: 2
  */
-int f2311(int x, int n) {
-  return null;
+int f2311(int x, int n)
+{
+    return NULL;
 }
-/* 
+/*
  * f2312 - Return bit-level equivalent of absolute value of f for
  *   point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -308,21 +338,23 @@ int f2311(int x, int n) {
  *   Max ops: 4
  *   Rating: 2
  */
-unsigned f2312(unsigned uf) {
-  return null;
+unsigned f2312(unsigned uf)
+{
+    return NULL;
 }
-/* 
+/*
  * f2313 - return a mask that marks the position of the
  *               most significant 1 bit. If x == 0, return 0
  *   Example: f2313(96) = 0x40
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 15
- *   Rating: 4 
+ *   Rating: 4
  */
-int f2313(int x) {
-  return null;
+int f2313(int x)
+{
+    return NULL;
 }
-/* 
+/*
  * f2314 - Return bit-level equivalent of expression -f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -333,35 +365,39 @@ int f2313(int x) {
  *   Max ops: 5
  *   Rating: 2
  */
-unsigned f2314(unsigned uf) {
-    return null;
+unsigned f2314(unsigned uf)
+{
+    return NULL;
 }
-/* 
+/*
  * f2315 - return word with all odd-numbered bits set to 1
- *   Legal ops: | << 
+ *   Legal ops: | <<
  *   Max ops: 4
  *   Rating: 2
  */
-int f2315(void) {
-  return null;
+int f2315(void)
+{
+    return NULL;
 }
 /*
- * f2316 - if x < y  then return 1, else return 0 
+ * f2316 - if x < y  then return 1, else return 0
  *   Example: f2316(4,5) = 1.
  *   Legal ops: ! ~ & ^ | + >>
  *   Max ops: 12
  *   Rating: 3
  */
-int f2316(int x, int y) {
-  return null;
+int f2316(int x, int y)
+{
+    return NULL;
 }
-/* 
- * f2317 - return 1 if x >= 0, return 0 otherwise 
+/*
+ * f2317 - return 1 if x >= 0, return 0 otherwise
  *   Example: f2317(-1) = 0.  f2317(0) = 1.
  *   Legal ops: ~ & >>
  *   Max ops: 3
  *   Rating: 3
  */
-int f2317(int x) {
-  return null;
+int f2317(int x)
+{
+    return NULL;
 }
