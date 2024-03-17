@@ -169,18 +169,50 @@ NOTES:
    - 56 emoji characters
    - 285 hentaigana
    - 3 additional Zanabazar Square characters */
-int f2301(int x, int y);
+void printBits(int x);
+void testOneParam(int x);
+void testTwoParam(int x, int y);
 int f2302(int x);
+int f2303(int x, int y);
+int f2304(int x, int y);
+int f2305(int x);
+int f2306(int x);
+int f2307(int x);
+int f2308(int x, int y);
 
 int main()
 {
-    printf("%u",f2302(5));
+    testTwoParam(0,0);
+    testTwoParam(0,1);
+    testTwoParam(1,0);
+    testTwoParam(1,1);
+}
+
+void testOneParam(int x)
+{
+    printBits(x);
     printf("\n");
+    int result = f2307(x);
+    printf("\n");
+    printBits(result);
+    printf("%d --> %d\n\n\n",x,result);
+}
+
+void testTwoParam(int x, int y)
+{
+    printBits(x);
+    printf("\n");
+    printBits(y);
+    printf("\n");
+    int result = f2308(x,y);
+    printf("\n");
+    printBits(result);
+    printf("%d %d--> %d\n\n\n",x,y,result);
 }
 
 void printBits(int num)
 {
-    unsigned int size = sizeof(int) * 8;   // Calculate the number of bits in an integer
+    int size = sizeof(int) * 8;   // Calculate the number of bits in an integer
     unsigned int maxPow = 1 << (size - 1); // Find the maximum power of 2
     for (int i = 0; i < size; i++)
     {
@@ -199,7 +231,7 @@ void printBits(int num)
  */
 int f2301(int x, int y)
 {
-    
+    return !(x ^ y);
 }
 /*
  * f2302 - Check whether x is nonzero
@@ -210,7 +242,7 @@ int f2301(int x, int y)
  */
 int f2302(int x)
 {
-    
+    return !!(x ^ 0);
 }
 /*
  * f2303 - /* if x <= y  then return 1, else return 0 */
@@ -221,7 +253,7 @@ int f2302(int x)
 
 int f2303(int x, int y)
 {
-    return NULL;
+    return ((y + (~x + 1)) >> 31) + 1;
 }
 /*
  * f2304 - if x > y  then return 1, else return 0
@@ -232,7 +264,7 @@ int f2303(int x, int y)
  */
 int f2304(int x, int y)
 {
-    return NULL;
+    return ((x + ~y) >> 31) + 1;
 }
 /*
  * f2305 - return 1 if x < 0, return 0 otherwise
@@ -243,7 +275,7 @@ int f2304(int x, int y)
  */
 int f2305(int x)
 {
-    return NULL;
+    return (x >> 31) & 1;
 }
 /*
  * f2306 - return 1 if 0x30 <= x <= 0x39
@@ -258,7 +290,7 @@ int f2305(int x)
 
 int f2306(int x)
 {
-    return NULL;
+    return (((0x3a + ~x) | (x + ~0x2f)) >> 31) + 1;
 }
 /*
  * f2307 - return 1 if x can be represented as a
@@ -270,7 +302,7 @@ int f2306(int x)
  */
 int f2307(int x)
 {
-    return NULL;
+    return !((x >> 15) ^ (x >> 31));
 }
 /*
  * f2308 - return x -> y in propositional logic - 0 for false, 1
@@ -285,7 +317,7 @@ int f2307(int x)
  */
 int f2308(int x, int y)
 {
-    return NULL;
+    return !x | y;
 }
 /*
  * f2309 - Return bit-level equivalent of expression (int) f
@@ -302,7 +334,7 @@ exp = (uf >> 23) & 0xff;
  */
 int f2309(unsigned uf)
 {
-    return NULL;
+   
 }
 /*
  * f2310 - return floor(log base 2 of x), where x > 0
