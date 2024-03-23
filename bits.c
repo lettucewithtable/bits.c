@@ -179,20 +179,30 @@ int f2305(int x);
 int f2306(int x);
 int f2307(int x);
 int f2308(int x, int y);
+int f2309(unsigned uf);
+float bitsToFloat(int x);
+int floatToBits(float x);
 
 int main()
 {
-    testTwoParam(0,0);
-    testTwoParam(0,1);
-    testTwoParam(1,0);
-    testTwoParam(1,1);
+    printf("%d\n",5 > -9);
+}
+
+float bitsToFloat(int x)
+{
+    return *((float*)&x);
+}
+
+int floatToBits(float x)
+{
+    return *((int*)&x);
 }
 
 void testOneParam(int x)
 {
     printBits(x);
     printf("\n");
-    int result = f2307(x);
+    int result = f2309(x);
     printf("\n");
     printBits(result);
     printf("%d --> %d\n\n\n",x,result);
@@ -242,7 +252,7 @@ int f2301(int x, int y)
  */
 int f2302(int x)
 {
-    return !!(x ^ 0);
+    return ((x | (~x + 1)) >> 31) & 1;
 }
 /*
  * f2303 - /* if x <= y  then return 1, else return 0 */
@@ -332,9 +342,53 @@ int f2308(int x, int y)
  *   Rating: 4
 exp = (uf >> 23) & 0xff;
  */
+int f2309OG(unsigned uf)
+{   
+    int neg = uf & (1 << 31);
+    int exp = ((uf >> 23) & 0xff) - 0b01111111;
+    int mantissa = ((uf & 0b11111111111111111111111) | 0b100000000000000000000000);
+    if (exp < 0)
+    {
+        return 0;
+    }
+
+    if (exp < 23)
+    {
+        return neg | (mantissa >> (23 - exp));
+    }
+    
+    if (exp < 31)
+    {
+        return neg | (mantissa << (exp - 23));
+    }
+
+    return 0x80000000u;
+}
+
 int f2309(unsigned uf)
-{
-   
+{   
+    int neg = uf & (0b10000000000000000000000000000000);
+    int exp = ((uf >> 23) & 0xff) - 0b00000000000000000000000001101000;
+    int mantissa = ((uf & 0b11111111111111111111111) | 0b100000000000000000000000);
+    int returnVal;
+    if (exp < 0b11111111111111111111111111101001)
+    {
+        return 0;
+    }
+    else if (exp < 0)
+    {
+        returnVal = (mantissa >> (-exp));
+    }
+    else if (exp < 8)
+    {
+        returnVal = (mantissa << (exp));
+    }
+    else
+    {
+        return 0x80000000u;
+    }
+
+    return neg | returnVal;
 }
 /*
  * f2310 - return floor(log base 2 of x), where x > 0
