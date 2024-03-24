@@ -14,6 +14,7 @@
  * case it's OK.
  */
 #include <stdio.h>
+# include <math.h>
 #if 0
 /*
  * Instructions to Students:
@@ -170,6 +171,9 @@ NOTES:
    - 285 hentaigana
    - 3 additional Zanabazar Square characters */
 void printBits(int x);
+void printHex(int x);
+float bitsToFloat(int x);
+int floatToBits(float x);
 void testOneParam(int x);
 void testTwoParam(int x, int y);
 int f2302(int x);
@@ -180,12 +184,18 @@ int f2306(int x);
 int f2307(int x);
 int f2308(int x, int y);
 int f2309(unsigned uf);
-float bitsToFloat(int x);
-int floatToBits(float x);
+int f2310(int x);
+int f2311(int x, int n);
+unsigned f2312(unsigned uf);
+int f2313(int x);
+unsigned f2314(unsigned uf);
+int f2315(void);
+int f2316(int x, int y);
+int f2317(int x);
 
 int main()
 {
-    printf("%d\n",5 > -9);
+    printBits(f2315());
 }
 
 float bitsToFloat(int x)
@@ -202,9 +212,10 @@ void testOneParam(int x)
 {
     printBits(x);
     printf("\n");
-    int result = f2309(x);
+    int result = f2313(x);
     printf("\n");
     printBits(result);
+    printHex(result);
     printf("%d --> %d\n\n\n",x,result);
 }
 
@@ -214,14 +225,16 @@ void testTwoParam(int x, int y)
     printf("\n");
     printBits(y);
     printf("\n");
-    int result = f2308(x,y);
+    int result = f2316(x,y);
     printf("\n");
     printBits(result);
-    printf("%d %d--> %d\n\n\n",x,y,result);
+    printHex(result);
+    printf("%d %d --> %d\n\n\n",x,y,result);
 }
 
 void printBits(int num)
 {
+    printf("0b");
     int size = sizeof(int) * 8;   // Calculate the number of bits in an integer
     unsigned int maxPow = 1 << (size - 1); // Find the maximum power of 2
     for (int i = 0; i < size; i++)
@@ -230,6 +243,49 @@ void printBits(int num)
         printf("%u", num & maxPow ? 1 : 0);
         num = num << 1; // Shift the number to the left by 1
     }
+    printf("\n");
+}
+
+void printHex(int num)
+{
+    printf("0x");
+    int size = sizeof(int) * 2; // Calculate the number of hex digits in an integer (8 for 32-bit, 16 for 64-bit)
+    unsigned int maxPow = 0xF << (size - 1) * 4; // Find the maximum power of 16 relevant to the integer size
+
+    // Flag to skip leading zeros
+    int leading = 1;
+    
+    for (int i = 0; i < size; i++)
+    {
+        unsigned int digit = (num & maxPow) >> ((size - 1 - i) * 4);
+
+        // Skip leading zeros
+        if (digit == 0 && leading)
+        {
+            maxPow >>= 4;
+            continue;
+        }
+        leading = 0; // Print subsequent zeros after a non-zero digit is encountered
+        
+        // Print digit in hexadecimal
+        if (digit >= 0 && digit <= 9)
+        {
+            printf("%u", digit);
+        }
+        else
+        {
+            printf("%c", 'A' + (digit - 10));
+        }
+
+        // Shift the mask to the right for the next digit
+        maxPow >>= 4;
+    }
+
+    if (leading) // If `num` is zero
+    {
+        printf("0");
+    }
+
     printf("\n");
 }
 /*
@@ -397,9 +453,68 @@ int f2309(unsigned uf)
  *   Max ops: 27
  *   Rating: 4
  */
+int f2310OG(int x)
+{
+    // 5 bit are needed to represent all the possible values that
+    // are outputted by this function
+    // 00000 --> 11111 : 2^5 = 32
+    int returnVal = 0;
+    // now we ask the question, is it divisible by b? if so flick the 5th bit and set the new value
+    // is it divisible by 16? if so, flick the 4th bit and set the value to /16
+
+    int fifthBit = !!(x >> 16) << 4;
+    returnVal += fifthBit;
+    x >>= fifthBit; 
+
+    int forthBit = !!(x >> 8) << 3;
+    returnVal += forthBit;
+    x >>= forthBit; 
+
+    int thirdBit = !!(x >> 4) << 2;
+    returnVal += thirdBit;
+    x >>= thirdBit; 
+
+    int secondBit = !!(x >> 2) << 1;
+    returnVal += secondBit;
+    x >>= secondBit; 
+
+    int firstBit = !!(x >> 1) << 0;
+    returnVal += firstBit;
+    x >>= firstBit; 
+
+    return returnVal;
+}
+
 int f2310(int x)
 {
-    return NULL;
+    // 5 bit are needed to represent all the possible values that
+    // are outputted by this function
+    // 00000 --> 11111 : 2^5 = 32
+    int returnVal = 0;
+    // now we ask the question, is it divisible by b? if so flick the 5th bit and set the new value
+    // is it divisible by 16? if so, flick the 4th bit and set the value to /16
+
+    int fifthBit = !!(x >> 16) << 4;
+    returnVal += fifthBit;
+    x >>= fifthBit; 
+
+    int forthBit = !!(x >> 8) << 3;
+    returnVal += forthBit;
+    x >>= forthBit; 
+
+    int thirdBit = !!(x >> 4) << 2;
+    returnVal += thirdBit;
+    x >>= thirdBit; 
+
+    int secondBit = !!(x >> 2) << 1;
+    returnVal += secondBit;
+    x >>= secondBit; 
+
+    int firstBit = x >> 1;
+    returnVal += firstBit;
+    x >>= firstBit; 
+
+    return returnVal;
 }
 /*
  * f2311 - Extract byte n from word x
@@ -411,7 +526,7 @@ int f2310(int x)
  */
 int f2311(int x, int n)
 {
-    return NULL;
+    return (x >> (n << 3)) & 0xFF;
 }
 /*
  * f2312 - Return bit-level equivalent of absolute value of f for
@@ -426,7 +541,15 @@ int f2311(int x, int n)
  */
 unsigned f2312(unsigned uf)
 {
-    return NULL;
+    if ((uf & 0b01111111100000000000000000000000) == 0b01111111100000000000000000000000)
+    {
+        if (uf & 0b00000000011111111111111111111111)
+        {
+            return uf;
+        }
+    }
+
+    return uf & 0b01111111111111111111111111111111;
 }
 /*
  * f2313 - return a mask that marks the position of the
@@ -438,7 +561,14 @@ unsigned f2312(unsigned uf)
  */
 int f2313(int x)
 {
-    return NULL;
+    //return (x >> log_2(x)) << log_2(x);
+    int current = x >> 1;
+    current = (current >> 1) | current;
+    current = (current >> 2) | current;
+    current = (current >> 4) | current;
+    current = (current >> 8) | current;
+    current = (current >> 16) | current;
+    return x & ~current;
 }
 /*
  * f2314 - Return bit-level equivalent of expression -f for
@@ -453,7 +583,15 @@ int f2313(int x)
  */
 unsigned f2314(unsigned uf)
 {
-    return NULL;
+    if ((uf & 0b01111111100000000000000000000000) == 0b01111111100000000000000000000000)
+    {
+        if (uf & 0b00000000011111111111111111111111)
+        {
+            return uf;
+        }
+    }
+
+    return uf ^ 0b10000000000000000000000000000000;
 }
 /*
  * f2315 - return word with all odd-numbered bits set to 1
@@ -463,7 +601,10 @@ unsigned f2314(unsigned uf)
  */
 int f2315(void)
 {
-    return NULL;
+    int current = 0b01010101;
+    current = (current << 8) | current;
+    current = (current << 16) | current;
+    return current;
 }
 /*
  * f2316 - if x < y  then return 1, else return 0
@@ -474,7 +615,7 @@ int f2315(void)
  */
 int f2316(int x, int y)
 {
-    return NULL;
+    return ((y + (~x)) >> 31) + 1;
 }
 /*
  * f2317 - return 1 if x >= 0, return 0 otherwise
@@ -485,5 +626,5 @@ int f2316(int x, int y)
  */
 int f2317(int x)
 {
-    return NULL;
+    return ~(x >> 31) & 1;
 }
